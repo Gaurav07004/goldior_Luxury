@@ -34,13 +34,12 @@ export default function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
-
       <BrowserRouter>
         <Routes>
           <Route path="/product/:productId" element={<SingleProduct />} />
 
           <Route index element={<Home />} />
-          <Route path="/about-us" element={<About />} />
+          <Route path="/discover" element={<About />} />
           <Route path="/Our-Luxury-Collection" element={<Shop />} />
           {/* <Route path="/New-Launch" element={<Shop />} /> */}
           <Route path="/blogs" element={<Blog />} />
@@ -66,9 +65,12 @@ export default function App() {
           />
           <Route path="/privacy-policy" element={<Privacy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
-          <Route path="/terms & conditions" element={<TermsAndConditions />} />
+          <Route path="/terms-conditions" element={<TermsAndConditions />} />
           <Route path="/Payment-Page" element={<PaymentPage />} />
-          <Route path="/Buyer-Protection-Page" element={<BuyerProtectionPage />} />
+          <Route
+            path="/Buyer-Protection-Page"
+            element={<BuyerProtectionPage />}
+          />
           <Route path="/Delivery-Page" element={<DeliveryPage />} />
         </Routes>
       </BrowserRouter>

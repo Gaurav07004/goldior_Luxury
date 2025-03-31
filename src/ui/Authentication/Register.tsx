@@ -1,301 +1,239 @@
-  import { useEffect, useState } from "react";
-  import { NavLink } from "react-router-dom";
-  import  { saveUser } from "../../data/auth/UseAddUser";
-// import { verifyUserExists } from "../../data/auth/VerifyUserExists";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { saveUser } from "../../data/auth/UseAddUser";
 
-  const RegisterForm = () => {
-    // const navigation = useNavigate();
-    const [formData, setFormData] = useState({
-      username: "",
-      email: "",
-      gender: "",
-      address: {
-        name: "",
-        addressLine1: "",
-        addressLine2: "",
-        city: "",
-        state: "",
-        country: "",
-        zipcode: "",
-      },
-      favourites: [],
-    });
+const RegisterForm = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    gender: "",
+    address: {
+      name: "",
+      addressLine1: "",
+      addressLine2: "",
+      city: "",
+      state: "",
+      country: "",
+      zipcode: "",
+    },
+    favourites: [],
+  });
 
-      useEffect(() => {
-        const userEmail = localStorage.getItem("user_email_goldior_luxury");
-        if (userEmail) {
-          setFormData((prevData) => ({
-            ...prevData,
-            email: userEmail,
-          }));
-        }
-      }, []);
+  useEffect(() => {
+    const userEmail = localStorage.getItem("user_email_goldior_luxury");
+    if (userEmail) {
+      setFormData((prevData) => ({
+        ...prevData,
+        email: userEmail,
+      }));
+    }
+  }, []);
 
-
-    // Updated handleChange function to detect changes in address fields
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
-    // Check if the field is part of the address object
     if (name.startsWith("address.")) {
-      const addressField = name.split(".")[1]; // Extract the address field name (like 'addressLine1', 'city', etc.)
+      const addressField = name.split(".")[1];
       setFormData((prevData) => ({
         ...prevData,
         address: {
           ...prevData.address,
-          [addressField]: value, // Update the specific address field
+          [addressField]: value,
         },
       }));
     } else {
-      console.log(name, value)
-      // If it's not an address field, handle the top-level fields like 'gender', 'username', etc.
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value, // Update the top-level field (e.g., gender, username, email)
+        [name]: value,
       }));
     }
   };
 
-
-    const handleSubmit = (e: any) => {
-      e.preventDefault(); // Prevent form from reloading the page
-      try {
-        console.log(formData, "form data: frontend");
-        saveUser(formData);
-         window.history.go(-2);
-
-      } catch (error: any) {
-        console.log(error.message)
-      }
-    };
-
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <form
-          className="bg-white p-8 rounded-lg shadow-lg w-2/5"
-          onSubmit={handleSubmit}
-        >
-          <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
-            Register User
-          </h2>
-
-          {/* Username */}
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            />
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled
-              required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            />
-          </div>
-
-          {/* Gender */}
-          <div className="mb-4">
-            <label
-              htmlFor="gender"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Gender
-            </label>
-            <select
-              id="gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-
-          {/* Address Fields */}
-          <div className="mb-4">
-            <label
-              htmlFor="address.name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Save address as
-            </label>
-            <input
-              type="text"
-              id="address.name"
-              name="address.name"
-              value={formData.address.name}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            />
-          </div>
-
-          {/* Address Line 1 */}
-          <div className="mb-4">
-            <label
-              htmlFor="addressLine1"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Address Line 1
-            </label>
-            <input
-              type="text"
-              id="addressLine1"
-              name="address.addressLine1"
-              value={formData.address.addressLine1}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            />
-          </div>
-
-          {/* Address Line 2 */}
-          <div className="mb-4">
-            <label
-              htmlFor="addressLine2"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Address Line 2
-            </label>
-            <input
-              type="text"
-              id="addressLine2"
-              name="address.addressLine2"
-              value={formData.address.addressLine2}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-            />
-          </div>
-
-          {/* City and State (same row) */}
-          <div className="mb-4 flex space-x-4">
-            {/* City */}
-            <div className="flex-1">
-              <label
-                htmlFor="city"
-                className="block text-sm font-medium text-gray-700"
-              >
-                City
-              </label>
-              <input
-                type="text"
-                id="city"
-                name="address.city"
-                value={formData.address.city}
-                onChange={handleChange}
-                required
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-              />
-            </div>
-
-            {/* State */}
-            <div className="flex-1">
-              <label
-                htmlFor="state"
-                className="block text-sm font-medium text-gray-700"
-              >
-                State
-              </label>
-              <input
-                type="text"
-                id="state"
-                name="address.state"
-                value={formData.address.state}
-                onChange={handleChange}
-                required
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-              />
-            </div>
-          </div>
-
-          {/* Country and Zipcode (same row) */}
-          <div className="mb-4 flex space-x-4">
-            {/* Country */}
-            <div className="flex-1">
-              <label
-                htmlFor="country"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Country
-              </label>
-              <input
-                type="text"
-                id="country"
-                name="address.country"
-                value={formData.address.country}
-                onChange={handleChange}
-                required
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-              />
-            </div>
-
-            {/* Zipcode */}
-            <div className="flex-1">
-              <label
-                htmlFor="zipcode"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Zipcode
-              </label>
-              <input
-                type="text"
-                id="zipcode"
-                name="address.zipcode"
-                value={formData.address.zipcode}
-                onChange={handleChange}
-                required
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-              />
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-[var(--theme-brown)] text-white py-2 px-4 rounded-md hover:bg-[var(--theme-brown)] focus:outline-none focus:ring-2 focus:ring-[var(--theme-brown)]"
-          >
-            Register
-          </button>
-          <label className="block text-sm font-normal text-gray-700 text-center m-2">
-            Already register?{" "}
-            <NavLink
-              to={"/login"}
-              className="font-medium text-[var(--theme-brown)]"
-            >
-              Login
-            </NavLink>
-          </label>
-        </form>
-      </div>
-    );
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    try {
+      console.log(formData, "form data: frontend");
+      saveUser(formData);
+      window.history.go(-2);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
-  export default RegisterForm;
+  return (
+    <div className="flex items-center justify-center bg-gradient-to-l from-[#fef3e6] to-[#fdebd0] h-screen">
+      <form
+        className="bg-white py-4 px-6 rounded-xl w-[40%]"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="text-xl font-bold text-center text-gray-800">
+          Create Your Account
+        </h2>
+        <p className="text-center text-gray-600 mb-6 text-sm">
+          Join us today and start your journey.
+        </p>
+
+        {/* Username */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Username
+          </label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            placeholder="Enter your username"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+          />
+        </div>
+
+        {/* Email */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            placeholder="Enter your email"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+          />
+        </div>
+
+        {/* Gender */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Gender
+          </label>
+          <div className="flex space-x-4">
+            {["male", "female", "other"].map((gender) => (
+              <div
+                key={gender}
+                onClick={() => setFormData({ ...formData, gender })}
+                className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all border border-gray-300 bg-white 
+          ${
+            formData.gender === gender
+              ? gender === "male"
+                ? "border-blue-600 text-blue-600"
+                : gender === "female"
+                ? "border-pink-600 text-pink-600"
+                : "border-purple-600 text-purple-600"
+              : "border-gray-200 text-gray-700"
+          }`}
+              >
+                {gender.charAt(0).toUpperCase() + gender.slice(1)}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Address Line 1 */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Address
+          </label>
+          <input
+            type="text"
+            name="address.addressLine1"
+            value={formData.address.addressLine1}
+            onChange={handleChange}
+            required
+            placeholder="Street address, P.O. box"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+          />
+        </div>
+
+        {/* City & State */}
+        <div className="mb-4 flex space-x-4">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700">
+              City
+            </label>
+            <input
+              type="text"
+              name="address.city"
+              value={formData.address.city}
+              onChange={handleChange}
+              required
+              placeholder="Enter your city"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+            />
+          </div>
+
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700">
+              State
+            </label>
+            <input
+              type="text"
+              name="address.state"
+              value={formData.address.state}
+              onChange={handleChange}
+              required
+              placeholder="Enter your state"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+            />
+          </div>
+        </div>
+
+        {/* Country & Zipcode */}
+        <div className="mb-4 flex space-x-4">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700">
+              Country
+            </label>
+            <input
+              type="text"
+              name="address.country"
+              value={formData.address.country}
+              onChange={handleChange}
+              required
+              placeholder="Enter your country"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+            />
+          </div>
+
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700">
+              Zipcode
+            </label>
+            <input
+              type="text"
+              name="address.zipcode"
+              value={formData.address.zipcode}
+              onChange={handleChange}
+              required
+              placeholder="Enter your ZIP code"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none placeholder:text-sm text-sm text-gray-700"
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 focus:outline-none placeholder:text-sm transition"
+        >
+          Register
+        </button>
+
+        <p className="text-sm text-gray-700 text-center mt-4">
+          Already registered?{" "}
+          <NavLink
+            to="/login"
+            className="font-medium text-yellow-600 hover:underline"
+          >
+            Login
+          </NavLink>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default RegisterForm;

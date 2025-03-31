@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { sendEmailForOtp } from "../../data/auth/otpverification";
 import { useVerifyOtp } from "../../data/auth/UseVerifyOtp";
+import { IoMailOutline } from "react-icons/io5";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
-  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
+  const [step, setStep] = useState(1);
   const [otp, setOtp] = useState(["", "", "", ""]);
-
   const { verifyOtp } = useVerifyOtp();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && step === 2) setStep(1);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [step]);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -17,13 +26,12 @@ const Login: React.FC = () => {
   const handleSubmitEmail = () => {
     if (!email) return;
     sendEmailForOtp(email);
-    setIsOtpModalOpen(true);
+    setStep(2);
   };
 
   const handleVerifyOtp = () => {
-    if (!email || otp.some((value) => value === "")) return; // Ensure OTP is fully filled
-    const otpString = otp.join("");
-    verifyOtp(email, otpString);
+    if (!email || otp.some((value) => value === "")) return;
+    verifyOtp(email, otp.join(""));
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -33,82 +41,62 @@ const Login: React.FC = () => {
       setOtp(newOtp);
 
       if (value && index < otp.length - 1) {
-        const nextInput = document.getElementById(`otp-${index + 1}`);
-        nextInput?.focus();
+        document.getElementById(`otp-${index + 1}`)?.focus();
+      } else if (!value && index > 0) {
+        document.getElementById(`otp-${index - 1}`)?.focus();
       }
-
-      if (!value && index > 0) {
-        const prevInput = document.getElementById(`otp-${index - 1}`);
-        prevInput?.focus();
-      }
-    }
-  };
-
-  // Handle "Enter" key press for email and OTP inputs
-  const handleKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-    action: () => void
-  ) => {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Prevent form submission or default behavior
-      action();
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {/* Login Form */}
-      <div
-        className={`bg-white p-6 rounded shadow-md w-full max-w-md ${
-          isOtpModalOpen ? "hidden" : ""
-        }`}
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Verify your email
-        </h2>
-        <input
-          type="email"
-          id="email-input"
-          value={email}
-          onChange={handleEmailChange}
-          onKeyDown={(e) => handleKeyDown(e, handleSubmitEmail)} // Handle Enter key
-          className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          placeholder="Enter your email"
-        />
-        <button
-          onClick={handleSubmitEmail}
-          className="mt-4 w-full bg-[var(--theme-brown)] text-white p-2 rounded cursor-pointer hover:bg-[var(--buttonHover)] duration-500"
-        >
-          Send OTP
-        </button>
-        <label className="block text-sm font-normal text-gray-700 text-center m-2">
-          Don't have an account?{" "}
-          <NavLink
-            to={"/register"}
-            className="font-medium text-[var(--theme-brown)]"
-          >
-            Register
-          </NavLink>
-        </label>
-      </div>
-
-      {/* OTP Modal */}
-      {isOtpModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="relative bg-white p-6 rounded shadow-md w-full max-w-md">
-            <button
-              onClick={() => setIsOtpModalOpen(false)}
-              className="absolute top-2 right-2 text-3xl text-gray-600 hover:text-gray-900"
-            >
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold mb-4 text-center">
-              OTP Authentication
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-l from-[#f8e9d7] to-[#fbe3bf] p-4">
+      <div className="bg-white border border-gray-300 p-8 rounded-lg w-full max-w-md">
+        {step === 1 && (
+          <>
+            <h2 className="text-xl font-bold mb-4 text-center text-gray-700">
+              Welcome Back!
             </h2>
-            <p className="text-center mb-4">
-              Enter the 4-digit OTP sent to your email.
+            <p className="text-center text-gray-600 mb-6">
+              Sign in to shop, track orders, and manage your account.
             </p>
-            <div className="flex justify-center gap-2 mb-4">
+            <div className="relative">
+              <IoMailOutline className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+              <input
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                className="w-full py-3 pl-12 pr-12 border border-gray-300 rounded-md text-gray-600 placeholder-gray-400 text-sm focus:outline-none "
+                placeholder="Email Address"
+              />
+            </div>
+            <button
+              onClick={handleSubmitEmail}
+              className="w-full mt-4 p-3 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition duration-300"
+            >
+              Send OTP
+            </button>
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Don’t have an account?{" "}
+              <NavLink to="/register" className="text-yellow-600 font-medium">
+                Register
+              </NavLink>
+            </p>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <h2 className="text-lg font-bold text-center text-gray-700">
+              Enter Verification Code
+            </h2>
+            <p className="text-center text-gray-600 text-sm mt-2">
+              We've sent a code to{" "}
+              <span className="font-medium text-gray-800">{email}</span>
+            </p>
+            <p className="text-sm text-gray-600 text-start mt-6">
+              Enter One-Time Password (OTP)
+            </p>
+            <div className="flex justify-between mt-2">
               {otp.map((value, index) => (
                 <input
                   key={index}
@@ -116,30 +104,29 @@ const Login: React.FC = () => {
                   maxLength={1}
                   value={value}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(e, handleVerifyOtp)} // Handle Enter key for OTP
                   id={`otp-${index}`}
-                  className="otp-input w-12 h-12 border border-gray-300 text-center text-xl rounded"
+                  className="w-12 h-12 border border-gray-300 text-center text-xl rounded-md focus:outline-none "
                 />
               ))}
             </div>
             <button
               onClick={handleVerifyOtp}
-              className="w-full bg-[var(--theme-brown)] text-white p-2 rounded hover:bg-[var(--buttonHover)] duration-500"
+              className="w-full p-3 bg-yellow-500 mt-4 text-white rounded-md hover:bg-yellow-600 transition duration-300 "
             >
-              Verify
+              Verify OTP
             </button>
             <p className="text-center text-sm text-gray-600 mt-4">
               Didn’t receive an OTP?{" "}
               <button
                 onClick={handleSubmitEmail}
-                className="text-[var(--theme-brown)] cursor-pointer"
+                className="text-yellow-600 font-medium"
               >
                 Resend
               </button>
             </p>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { PiHeart, PiUser, PiShoppingCartSimple } from "react-icons/pi";
 import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { NavLink, useNavigate } from "react-router-dom";
 import WishlistCard from "./WishlistCard";
-import { FaLongArrowAltRight } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
 
 import wishimg from "../../assets/8.jpg";
 import { getWishlist } from "../../data/wishlist/getWishlist";
@@ -133,7 +133,7 @@ export default function Navbar() {
         <ul className="flex justify-between items-center font-medium lg:w-[36rem] md:w-[26rem] xl:w-fit">
           {[
             "Home",
-            "About Us",
+            "Discover",
             "Our Luxury Collection",
             // "New Launch",
             "Blogs",
@@ -203,11 +203,14 @@ export default function Navbar() {
           className={`flex justify-between items-center w-full h-[4rem] sm:h-[5rem] md:h-[6rem] fixed top-0 z-20 px-4 sm:px-8 lg:px-[3rem] xl:px-8 bg-white transition-colors duration-300`}
         >
           <h2 className="text-xl sm:text-2xl font-semibold">Wishlist</h2>
-          <div className="bg-slate-200 w-[2rem] h-[2rem] flex justify-center items-center rounded-lg">
-            <FaLongArrowAltRight
-              onClick={() => setWishlistOpen(false)}
+          <div
+            className="bg-slate-200 w-8 h-8 flex justify-center items-center rounded-lg cursor-pointer 
+             hover:bg-slate-300 transition-all duration-300"
+            onClick={() => setWishlistOpen(false)}
+          >
+            <RxCross1
               size={20}
-              className="cursor-pointer"
+              className="transition-transform duration-300 hover:rotate-180"
             />
           </div>
         </div>
@@ -235,7 +238,7 @@ export default function Navbar() {
               <img
                 src={wishimg} // Provide a valid empty wishlist image
                 alt="Empty Wishlist"
-                className="w-full max-w-[200px] h-auto object-cover mix-blend-multiply mb-6"
+                className="w-full max-w-[200px] h-auto object-cover mix-blend-multiply"
               />
 
               {/* Empty Wishlist Title */}

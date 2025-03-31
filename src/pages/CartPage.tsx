@@ -1,10 +1,7 @@
 import Navbar from "../ui/general/Navbar";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  getCart,
-  getTotalCartPrice,
-} from "../Features/cart/cartSlice.ts";
+import { getCart, getTotalCartPrice } from "../Features/cart/cartSlice.ts";
 import CartItem from "../ui/cart/CartItem.tsx";
 import wishimg from "../assets/8.jpg"; // Assume you have an empty cart image
 
@@ -74,12 +71,12 @@ const CartPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-screen px-4 sm:px-8">
+          <div className="flex flex-col items-center justify-center px-4 sm:px-8">
             {/* Empty Cart Image */}
             <img
               src={wishimg}
               alt="Empty Cart"
-              className="w-[200px] sm:w-[250px] md:w-[300px] xl:w-[300px] h-auto object-cover mix-blend-multiply mb-6"
+              className="w-[200px] sm:w-[250px] md:w-[300px] xl:w-[300px] h-auto object-cover mix-blend-multiply"
             />
 
             {/* Empty Cart Title */}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "../ui/general/Navbar";
 import HomeGrid from "../ui/general/Collection";
 import Hero from "../ui/Home/Hero";
@@ -16,6 +17,9 @@ import useGetMostOrderedProducts from "../data/products/useGetMostOrderedProduct
 function Home() {
   const { products } = useGetMostOrderedProducts();
   // console.log("products: ", products);
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top when page loads
+  }, []);
   return (
     <>
       <Navbar />
