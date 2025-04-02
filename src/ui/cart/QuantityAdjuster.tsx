@@ -38,10 +38,11 @@ export default function QuantityAdjuster({ id }: { id: string }) {
       <button
         onClick={onClickMinus}
         disabled={quantity <= 1}
-        className={`text-3xl transition-colors ${quantity > 1
-          ? "text-gray-500 hover:text-gray-800"
-          : "text-gray-300 cursor-not-allowed"
-          }`}
+        className={`text-3xl transition-colors ${
+          quantity > 1
+            ? "text-gray-500 hover:text-gray-800"
+            : "text-gray-300 cursor-not-allowed"
+        }`}
       >
         <CiCircleMinus />
       </button>
@@ -51,10 +52,11 @@ export default function QuantityAdjuster({ id }: { id: string }) {
       <button
         onClick={onClickPlus}
         disabled={quantity >= 10}
-        className={`text-3xl transition-colors ${quantity < 10
-          ? "text-gray-500 hover:text-gray-800"
-          : "text-gray-300 cursor-not-allowed"
-          }`}
+        className={`text-3xl transition-colors ${
+          quantity < 10
+            ? "text-gray-500 hover:text-gray-800"
+            : "text-gray-300 cursor-not-allowed"
+        }`}
       >
         <CiCirclePlus />
       </button>

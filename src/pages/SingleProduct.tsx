@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Navbar from "../ui/general/Navbar.tsx";
 // import perfume from '../assets/old-fashion-perfume-black-gold.png';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import QuantityAdjuster from "../ui/cart/QuantityAdjuster.tsx";
 import RoundButton from "../ui/general/RoundButton.tsx";
 import { FcLike } from "react-icons/fc";
@@ -36,7 +36,6 @@ interface CartItem {
   totalPrice: number;
   imgUrl: string;
 }
-
 
 export default function SingleProduct() {
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -136,7 +135,7 @@ function ProductInfo({
   const currentItemId = product?._id;
 
   const [inCart, setInCart] = useState(false);
-  console.log(inCart)
+  console.log(inCart);
 
   useEffect(() => {
     setProductExistsInWishList(
@@ -210,64 +209,64 @@ function ProductInfo({
 
   return (
     <div>
-      <div
-        className="w-full px-4 sm:px-8 md:px-[2rem] lg:px-28 xl:px-32 gap-10 items-start flex flex-col sm:flex-row sm:gap-5 xl:gap-10 pt-[10rem]"
-      >
+      <div className="w-full px-4 sm:px-8 md:px-[2rem] lg:px-28 xl:px-32 gap-10 items-start flex flex-col sm:flex-row sm:gap-5 xl:gap-10 pt-[10rem]">
         {/* Perfume Image */}
-        <div className="w-fit h-auto rounded-3xl bg-gray-200 p-8 sm:p-6 border-[1.5px]">
+        <div className="bg-white rounded-xl duration-500 cursor-pointer border-2 border-gray-200 mb-8 p-6">
           <div className="flex justify-between items-center mb-4">
-            {/* "New in" Badge */}
-            <div className="bg-white p-2 rounded-full flex items-center">
-              <PiShootingStarThin className="text-slate-600" />
-              <span className="text-xs text-slate-600 ml-1">New in</span>
-            </div>
-            {/* Wishlist Toggle */}
-            <div className="bg-white p-2 rounded-full ml-auto cursor-pointer">
-              {!productExistsInWishList ? (
-                <PiHeart
-                  className="text-2xl text-stone-500"
-                  onClick={handleToggleWishlist}
-                />
-              ) : (
-                <FcLike
-                  className="text-2xl"
-                  onClick={handleToggleWishlist}
-                />
-              )}
-            </div>
+            {product?.discountPercentage > 0 && (
+              <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded mb-0">
+                {product?.discountPercentage}% OFF
+              </div>
+            )}
           </div>
-          <img
-            src={product?.imgUrl}
-            alt="Perfume"
-            className="h-auto w-fit max-w-[250px] max-h-[350px] sm:max-w-[180px] sm:max-h-[180px] md:max-w-[280px] md:max-h-[400px] lg:max-w-[400px] lg:max-h-[500px] xl:max-w-[400px] xl:max-h-[400px] object-cover mx-auto mix-blend-multiply"
-          />
+          <div className="flex justify-center py-2">
+            <img
+              src={product?.imgUrl}
+              className="h-[22rem] w-[22rem] object-cover rounded-xl"
+              onError={(e) =>
+                (e.currentTarget.src = "https://via.placeholder.com/400x400")
+              }
+            />
+          </div>
         </div>
 
         {/* Perfume Info */}
-        <div className="h-full w-full sm:w-[65%] p-3 xs:p-0 space-y-7">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-5">
-            <span className="xl:text-3xl sm:text-xl font-semibold text-gray-800">
+        <div className="h-full w-full sm:w-[65%] p-3 xs:p-0 space-y-4">
+          <div>
+            <span className="xl:text-[1.25rem] sm:text-xl font-semibold text-gray-800 flex justify-between items-center xl:w-[30%]">
               {product?.name}
+              <div className="bg-white p-2 rounded-full ml-auto cursor-pointer border-2 border-gray-300">
+                {!productExistsInWishList ? (
+                  <PiHeart
+                    className="text-2xl text-stone-500"
+                    onClick={handleToggleWishlist}
+                  />
+                ) : (
+                  <FcLike className="text-2xl" onClick={handleToggleWishlist} />
+                )}
+              </div>
             </span>
+            <p className="mt-1 text-sm text-slate-500">Goldior Luxury</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 lg:gap-6 xs:gap-0 sm:gap-0">
-            <button
-              className="xs:px-2 xs:py-1 sm:px-1 sm:py-1 xl:py-1 xl:px-3 border-2 border-green-500 rounded-md"
-            >
-              <span className="text-green-500 xl:text-base sm:text-xs xs:text-xs">
-                ${Math.round(salePrice)}
-                {product?.discountPercentage > 0 && (
-                  <span className="xl:text-base text-gray-500 line-through ml-2  xs:text-xs sm:text-xs">
-                    ${actualPrice}
-                  </span>
-                )}
-              </span>
-            </button>
+          <div>
+            <p className="mb-1 text-sm text-gray-700 font-semibold">
+              Description
+            </p>
+            <p className="text-[0.95rem] text-slate-500 capitalize text-justify">
+              {/* {product?.description} */}
+              An enchanting blend of rich florals and warm musky undertones,
+              creating a timeless allure. Infused with delicate notes of citrus
+              and vanilla, it offers a refreshing yet sophisticated aroma.
+              Perfect for any occasion, this fragrance leaves a lasting
+              impression of elegance and charm.
+            </p>
+          </div>
 
-            <TfiLayoutLineSolid className="rotate-90 text-2xl sm:text-3xl text-slate-300" />
+          {/* <div className="flex flex-wrap items-center gap-3 lg:gap-6 xs:gap-0 sm:gap-0"> */}
+          {/* <TfiLayoutLineSolid className="rotate-90 text-2xl sm:text-3xl text-slate-300" /> */}
 
-            <div className="flex items-center cursor-pointer">
+          {/* <div className="flex items-center cursor-pointer">
               <BiSolidStar className="xl:text-2xl sm:text-lg text-amber-400" />
               <span className="xl:text-base ml-1 sm:text-xs text-slate-500 xs:text-xs ">
                 {averageRating
@@ -275,19 +274,22 @@ function ProductInfo({
                   : "Be the first one to review!"}{" "}
                 (110 Review)
               </span>
-            </div>
+            </div> */}
 
-            <TfiLayoutLineSolid className="rotate-90 text-2xl sm:text-3xl text-slate-300" />
+          {/* <TfiLayoutLineSolid className="rotate-90 text-2xl sm:text-3xl text-slate-300" />
 
             <div className="bg-gray-200 px-2 sm:px-3 py-1 sm:py-2 rounded-full flex items-center">
               <PiShootingStarThin className="text-slate-600 xl:text-base xs:text-xs sm:text-xs" />
-              <span className="xl:text-base text-slate-600 ml-1 xs:text-xs sm:text-xs">New in</span>
-            </div>
-          </div>
+              <span className="xl:text-base text-slate-600 ml-1 xs:text-xs sm:text-xs">
+                New in
+              </span>
+            </div> */}
+          {/* </div> */}
 
-          <p className="text-[0.95rem] text-slate-500">{product?.description}</p>
           <div>
-            <div className="text-base text-slate-900 font-semibold">Select Size</div>
+            <div className="mb-0 text-sm text-gray-700 font-semibold">
+              Select Size
+            </div>
             <div className="flex flex-wrap gap-3">
               {product?.capacityInML?.map((item: any) => (
                 <SizePics
@@ -300,9 +302,26 @@ function ProductInfo({
               ))}
             </div>
           </div>
+          <section className="flex items-center justify-between xl:w-[30%] xs:w-[90%] md:w-[65%] lg:w-[54%] ">
+            <div className="flex flex-col">
+              <div className="mb-0 text-sm text-gray-700 font-semibold">
+                Price
+              </div>
+              <div className="flex items-center">
+                <p className="text-lg font-semibold text-slate-700">
+                  ${Math.round(salePrice)}
+                </p>
+                {product?.discountPercentage > 0 && (
+                  <del className="ml-2 text-sm text-gray-600">
+                    ${actualPrice}
+                  </del>
+                )}
+              </div>
+            </div>
+            <QuantityAdjuster id={product?._id} />
+          </section>
 
           <div className="flex flex-wrap space-x-2 mt-5 w-full xs:text-sm xl:text-base">
-            <QuantityAdjuster id={product?._id} />
             <RoundButton
               onClick={() =>
                 handleAddToCart(product?._id, product?.name, salePrice)
@@ -317,7 +336,9 @@ function ProductInfo({
       {/* product info  */}
       <div className="w-full px-4 sm:px-12 md:px-16 lg:px-24 xl:px-32 mt-12 flex flex-col gap-6">
         {/* Title Section */}
-        <p className="mt-1 text-[2.5rem] font-medium text-center font-serif text-slate-700 leading-[4.25rem]">Product Detail</p>
+        <p className="mt-1 text-[2.5rem] font-medium text-center font-serif text-slate-700 leading-[4.25rem]">
+          Product Detail
+        </p>
         {/* Description Section */}
         <div className="py-1">
           <ul className="list-disc space-y-4 text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -331,20 +352,6 @@ function ProductInfo({
         </div>
       </div>
 
-      <div className="w-full px-2 sm:px-16 md:px-20 lg:px-28 gap-10 flex-col mt-7">
-        {/* <h2
-          style={{ fontFamily: "Playfair" }}
-          className="text-xl text-gray-900 font-semibold text-center"
-        >
-          {product?.description2heading}
-        </h2>
-        <div className="w-full flex items-center justify-center my-2">
-          <p className="w-[60vw] h-[0.15rem] bg-gray-400"></p>
-        </div>
-        <p style={{ fontFamily: "Playfair" }} className="mt-2 text-center ">
-          {product?.description2}
-        </p> */}
-      </div>
       {/* key notes  */}
       <KeyNotes notes={product?.keynotes} />
       {/* reviews  */}
@@ -357,7 +364,6 @@ function ProductInfo({
     </div>
   );
 }
-
 
 function KeyNotes({ notes }: { notes: Notes[] }) {
   return (
@@ -383,24 +389,37 @@ function KeyNotes({ notes }: { notes: Notes[] }) {
   );
 }
 
-
-
-function SizePics({ capacity, selectedQuantity, setSelectedQuantity, imgUrl }: {
-  capacity: any,
-  selectedQuantity: number,
-  setSelectedQuantity: any,
-  imgUrl: string
+function SizePics({
+  capacity,
+  selectedQuantity,
+  setSelectedQuantity,
+  imgUrl,
+}: {
+  capacity: any;
+  selectedQuantity: number;
+  setSelectedQuantity: any;
+  imgUrl: string;
 }) {
   return (
-    <button onClick={() => setSelectedQuantity(capacity?.quantity)}
-      className={`mt-4 flex w-24 p-4 flex-col items-center justify-center rounded-lg  ${selectedQuantity === capacity?.quantity && 'bg-gray-200'}`}>
-      <img
-        src={imgUrl}
-        alt="Perfume"
-        className="mix-blend-multiply h-auto w-full max-w-[60px] max-h-[90px] sm:max-w-[50px] sm:max-h-[70px] md:max-w-[60px] md:max-h-[80px] lg:max-w-[70px] lg:max-h-[90px] xl:max-w-[80px] xl:max-h-[100px] object-cover mx-auto mt-[-10%]"
-      />
-      <span className="text-sm">{capacity?.quantity} ml</span>
+    <button
+      onClick={() => setSelectedQuantity(capacity?.quantity)}
+      aria-label={`Select ${capacity?.quantity} ml`}
+      className={`mt-2 flex w-[7rem] flex-col items-center justify-center bg-white rounded-xl duration-500 cursor-pointer border border-gray-400 p-3 ${
+        selectedQuantity === capacity?.quantity
+          ? "bg-green-50 border border-green-500"
+          : ""
+      }`}
+    >
+      <div className="flex flex-col items-center justify-center">
+        <img
+          src={imgUrl}
+          alt="Perfume"
+          className="w-[4rem] h-auto object-cover rounded-md"
+        />
+        <span className="text-gray-600 text-sm font-bold rounded mt-2">
+          {capacity?.quantity} ML
+        </span>
+      </div>
     </button>
-
-  )
+  );
 }
