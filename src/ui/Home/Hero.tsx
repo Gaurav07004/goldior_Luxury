@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
@@ -27,15 +27,16 @@ function Hero({
   explore,
   navigateToshop,
   navigateToView,
-  navigateToAbout
+  navigateToAbout,
 }: HeroProps) {
   const navigate = useNavigate();
   const splitWord = "ingredients";
-  const splitIndex = expertTitletext?.indexOf(splitWord) || 0 + splitWord.length;
+  const splitIndex =
+    expertTitletext?.indexOf(splitWord) || 0 + splitWord.length;
 
   const firstLine = expertTitletext?.slice(0, splitIndex).trim();
   const secondLine = expertTitletext?.slice(splitIndex).trim();
-  console.log(navigateToView)
+  console.log(navigateToView);
 
   const result = `${firstLine}\n${secondLine}`;
 
@@ -52,12 +53,14 @@ function Hero({
         <div className="flex flex-wrap justify-start items-center gap-4 mt-6">
           <button
             onClick={() => navigate(navigateToshop || "/")}
-            className="bg-[var(--theme-brown)] text-white shadow-md font-medium px-6 py-3 rounded-lg w-auto xs:w-fit xs:text-xs lg:w-fit lg:text-sm xl:w-fit xl:text-lg sm:w-fit sm:text-xs hover:bg-[var(--buttonHover)] duration-500">
+            className="bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white shadow-md font-medium px-6 py-3 rounded-lg w-auto xs:w-fit xs:text-xs lg:w-fit lg:text-sm xl:w-fit xl:text-lg sm:w-fit sm:text-xs duration-500"
+          >
             {shopButton}
           </button>
           <button
             onClick={() => navigate("/discover")}
-            className="bg-[#000] text-white shadow-md font-medium px-6 py-3 rounded-lg w-auto xs:w-fit xs:text-xs lg:w-fit lg:text-sm xl:w-fit xl:text-lg sm:w-fit sm:text-xs hover:bg-[#353535] duration-500">
+            className="bg-[#000] text-white shadow-md font-medium px-6 py-3 rounded-lg w-auto xs:w-fit xs:text-xs lg:w-fit lg:text-sm xl:w-fit xl:text-lg sm:w-fit sm:text-xs hover:bg-[#353535] duration-500"
+          >
             {viewDetail}
           </button>
         </div>
@@ -74,7 +77,8 @@ function Hero({
         </p>
         <p
           onClick={() => navigate(navigateToAbout || "/")}
-          className="cursor-pointer mt-4 text-[0.8rem] sm:text-[0.9rem] font-semibold text-[var(--theme-brown)] flex justify-between items-center gap-1 underline underline-offset-4">
+          className="cursor-pointer mt-4 text-[0.8rem] sm:text-[0.9rem] font-semibold text-[var(--theme-brown)] flex justify-between items-center gap-1 underline underline-offset-4"
+        >
           {explore}
           <LiaLongArrowAltRightSolid className="text-[1.2rem] sm:text-[1.5rem]" />
         </p>
@@ -89,7 +93,6 @@ function Hero({
         />
       </div>
     </div>
-
   );
 }
 

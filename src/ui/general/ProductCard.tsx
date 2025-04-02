@@ -1,36 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, getCart } from "../../Features/cart/cartSlice";
 
+interface ProductProps {
+  price: number;
+  imageUrl: string;
+  quantity?: string;
+  name: string;
+  id: string | number;
+  discountPercentage: number;
+  brand?: string;
+}
+
 function ProductCard({
   price,
   imageUrl,
-  // quantity,
   name,
   id,
   discountPercentage,
   brand = "Brand",
-}: {
-  price: any;
-  imageUrl: any;
-  quantity: any;
-  name: any;
-  id: any;
-  discountPercentage: any;
-  brand?: any;
-}) {
+}: ProductProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cart = useSelector(getCart); // This assumes getCart returns the entire cart array
+  const cart = useSelector(getCart);
   const [inCart, setInCart] = useState(false);
 
   // Calculate the discounted price
-  const discountedPrice = (Number(price) * (1 - discountPercentage / 100)).toFixed(2);
-  console.log(brand)
+  const discountedPrice = useMemo(() => {
+    return (Number(price) * (1 - discountPercentage / 100)).toFixed(2);
+  }, [price, discountPercentage]);
 
-  // Check if item is in cart
+  // Check if item is already in the cart
   useEffect(() => {
     const itemInCart = cart.find((item) => item.id === id);
     setInCart(!!itemInCart);
@@ -42,54 +44,82 @@ function ProductCard({
       id,
       name,
       quantity: 1,
+      price,
       unitPrice: parseFloat(discountedPrice),
       imgUrl: imageUrl,
       totalPrice: parseFloat(discountedPrice),
       discountPercentage,
     };
-    // @ts-expect-error: The types of `favourites` and `setFavourites` are not compatible.
     dispatch(addItem(newItem));
     setInCart(true);
   }
 
   return (
-    <div className="w-full sm:w-[17rem] md:w-[13rem] lg:w-[18rem] xl:w-[80%] bg-white rounded-3xl duration-500 cursor-pointer border mb-8" onClick={() => navigate("/product/" + id)}>
-      <div className="h-auto w-full max-w-full rounded-xl p-4 pt-8 mx-auto">
+    <div
+      className="relative w-full sm:w-[18rem] md:w-[18rem] lg:w-[18.8rem] xl:w-[24rem] bg-white rounded-xl duration-500 cursor-pointer border-2 border-gray-200 mb-8 p-6"
+      onClick={() => navigate("/product/" + id)}
+    >
+      {/* Discount Badge */}
+      {discountPercentage > 0 && (
+        <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded mb-4">
+          {discountPercentage}% OFF
+        </div>
+      )}
+
+      {/* Product Image */}
+      <div className="flex justify-center py-6 border-b border-gray-200">
         <img
-          src={imageUrl || "https://via.placeholder.com/320x360"}
+          src={imageUrl}
           alt={name}
-          className="h-auto w-full sm:w-80 md:w-96 lg:w-[80%] xl:w-[80%] lg:mx-auto object-cover rounded-xl mix-blend-multiply"
+          className="h-[15rem] w-[15rem] object-cover rounded-xl"
+          onError={(e) =>
+            (e.currentTarget.src = "https://via.placeholder.com/400x400")
+          }
         />
       </div>
 
-      <div className="px-4 py-3">
-        <p className="text-base xs:text-lg sm:text-base md:text-base  xl:text-xl font-bold text-slate-700 truncate block capitalize">{name}</p>
-        <p className="mt-1 text-xs sm:text-[0.8rem] md:text-xs lg:text-[0.85rem] xl:text-base xl:w-[70%]  font-medium text-slate-500 w-[70%] sm:w-full">A bold blend of blackcurrant and musk for irresistible allure.</p>
-        <div className="flex items-center justify-between mt-6">
-          {inCart ? (
-            <div className="bg-[#34d399] text-xs sm:text-xs md:text-xs md:px-3 md:py-1 lg:text-sm lg:px-4 lg:py-1 xl:text-base xl:px-5 xl:py-2 text-white px-5 py-2 rounded-lg w-fit duration-500">
-              Go to Cart
-            </div>
-          ) : (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToCart();
-              }}
-              className="bg-[var(--theme-brown)] text-xs sm:text-xs md:text-xs md:px-3 md:py-1 lg:text-sm lg:px-4 lg:py-1 xl:text-base xl:px-5 xl:py-2 text-white px-5 py-2 rounded-lg w-fit hover:bg-[var(--buttonHover)] duration-500"
-            >
-              Add to Cart
-            </button>
+      {/* Product Details */}
+      <div className="py-4 border-b border-gray-200">
+        <p className="text-base font-bold text-slate-700 truncate capitalize">
+          {name}
+        </p>
+        <p className="mt-1 text-sm text-slate-500">Goldior Luxury</p>
+      </div>
+
+      {/* Price & Button */}
+      <div className="flex justify-between items-center pt-6">
+        <div className="flex items-center">
+          <p className="text-lg font-semibold text-slate-700">
+            ${discountedPrice}
+          </p>
+          {discountPercentage > 0 && (
+            <del>
+              <p className="text-sm text-gray-600 ml-2">${price}</p>
+            </del>
           )}
-          <div className="flex items-center justify-between">
-            <p className="text-xs sm:text-xs md:text-xs lg:text-base xl:text-lg font-semibold text-slate-700 cursor-auto my-3">${discountedPrice}</p>
-            {discountPercentage > 0 && (
-              <del>
-                <p className="text-xs sm:text-xs md:text-xs lg:text-base text-gray-600 cursor-auto ml-2">${price}</p>
-              </del>
-            )}
-          </div>
         </div>
+
+        {inCart ? (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/cart");
+            }}
+            className="bg-green-500 text-white px-4 py-2 rounded text-sm hover:bg-green-600"
+          >
+            Go to Cart
+          </button>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
+            }}
+            className="bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white px-4 py-2 rounded text-sm"
+          >
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

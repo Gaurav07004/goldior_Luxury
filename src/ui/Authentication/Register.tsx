@@ -217,7 +217,7 @@ const RegisterForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 focus:outline-none placeholder:text-sm transition"
+          className="w-full bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white py-2 px-4 rounded-md focus:outline-none placeholder:text-sm transition"
         >
           Register
         </button>

@@ -40,7 +40,7 @@ function ProductGrid({
       {showFilters && (
         <div>
           <hr className="mb-4" />
-          <div className="flex flex-col xs:flex-col sm:flex-row lg:flex-row items-center justify-between gap-6 lg:gap-10 w-full">
+          <div className="flex flex-col xs:flex-col sm:flex-row lg:flex-row items-start justify-between gap-6 lg:gap-10 w-full">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center lg:flex-row lg:items-center">
               <span className="text-sm text-gray-800">Filter</span>
               <div className="flex gap-2">
@@ -67,7 +67,6 @@ function ProductGrid({
                 )}
               </div>
             </div>
-
             <div className="w-fit flex justify-between items-center gap-4">
               <span className="text-sm text-gray-800 sm:w-[10%] sm:hidden">
                 Sort By
@@ -112,14 +111,14 @@ function ProductGrid({
       )}
 
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-8 mt-14">
+        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 mt-14">
           {products?.products?.map((item, index) => (
             <ProductCard
               key={index}
               imageUrl={item.imgUrl}
               name={item.name}
               price={item.capacityInML[0].price}
-              quantity={"100ml"}
+              quantity="100ml"
               id={item._id}
               discountPercentage={item?.discountPercentage}
             />

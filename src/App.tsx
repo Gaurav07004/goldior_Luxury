@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home.tsx";
 import SingleProduct from "./pages/SingleProduct.tsx";
 import About from "./pages/About.tsx";
@@ -20,28 +21,25 @@ import TermsAndConditions from "./ui/security/terms.tsx";
 import BuyerProtectionPage from "./ui/security/BuyerProtectionPage.tsx";
 import DeliveryPage from "./ui/security/DeliveryPage.tsx";
 import PaymentPage from "./ui/security/PaymentPage.tsx";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AiAssistant from "./ui/components/chatbot.tsx"; // Import AI Assistant
 
 export default function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        // staleTime: 60*1000
         staleTime: 0,
       },
     },
   });
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/product/:productId" element={<SingleProduct />} />
-
           <Route index element={<Home />} />
           <Route path="/discover" element={<About />} />
           <Route path="/Our-Luxury-Collection" element={<Shop />} />
-          {/* <Route path="/New-Launch" element={<Shop />} /> */}
           <Route path="/blogs" element={<Blog />} />
           <Route path="/Contact-Us" element={<Blog />} />
           <Route path="/cart" element={<CartPage />} />
@@ -74,6 +72,9 @@ export default function App() {
           <Route path="/Delivery-Page" element={<DeliveryPage />} />
         </Routes>
       </BrowserRouter>
+
+      {/* AI Assistant Component */}
+      <AiAssistant />
     </QueryClientProvider>
   );
 }

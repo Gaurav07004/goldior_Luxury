@@ -71,7 +71,7 @@ const Login: React.FC = () => {
             </div>
             <button
               onClick={handleSubmitEmail}
-              className="w-full mt-4 p-3 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition duration-300"
+              className="w-full mt-4 p-3 bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white rounded-md transition duration-300"
             >
               Send OTP
             </button>
@@ -111,7 +111,7 @@ const Login: React.FC = () => {
             </div>
             <button
               onClick={handleVerifyOtp}
-              className="w-full p-3 bg-yellow-500 mt-4 text-white rounded-md hover:bg-yellow-600 transition duration-300 "
+              className="w-full p-3 bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] mt-4 text-white rounded-md transition duration-300 "
             >
               Verify OTP
             </button>

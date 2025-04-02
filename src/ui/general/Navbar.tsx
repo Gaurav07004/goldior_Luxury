@@ -129,7 +129,7 @@ export default function Navbar() {
           className="h-full max-h-[70%] sm:max-h-[auto] w-auto object-contain rounded-md"
         />
       </div>
-      <div className="hidden md:block">
+      <div className="hidden xl:block">
         <ul className="flex justify-between items-center font-medium lg:w-[36rem] md:w-[26rem] xl:w-fit">
           {[
             "Home",
@@ -154,7 +154,7 @@ export default function Navbar() {
           )}
         </ul>
       </div>
-      <div className="hidden md:block">
+      <div className="hidden xl:block">
         <ul className="flex justify-between items-center font-medium lg:w-[36rem] md:w-[26rem] xl:w-[10rem]">
           <NavItem>
             <PiUser
@@ -264,7 +264,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="md:hidden flex items-center">
+      <div className="xl:hidden flex items-center">
         <RxHamburgerMenu
           className="text-xl cursor-pointer"
           onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}

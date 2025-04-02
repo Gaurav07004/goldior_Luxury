@@ -7,7 +7,7 @@ import { FaRegCopyright } from "react-icons/fa6";
 
 function Footer() {
   return (
-    <footer className="px-8 sm:px-8 md:px-16 lg:px-32 pt-16 pb-4 bg-gradient-to-r from-[#fef3e6] via-white to-[#fdebd0] border-t-2">
+    <footer className="px-8 sm:px-8 md:px-16 lg:px-16 pt-16 pb-4 bg-gradient-to-r from-[#fef3e6] via-white to-[#fdebd0] border-t-2">
       <div>
         <div className="w-[7rem] h-auto sm:w-[8rem] md:w-[9rem] lg:w-[10rem] xl:w-[8rem]">
           <img
