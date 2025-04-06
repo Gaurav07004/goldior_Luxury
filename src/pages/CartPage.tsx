@@ -17,19 +17,19 @@ const CartPage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-center w-full px-4 sm:px-8 md:px-16 lg:px-8 xl:px-24 py-16 sm:py-20 md:py-24 pt-16 sm:pt-20">
+      <div className="flex justify-center w-full sm:px-8 md:px-16 lg:px-8 xl:px-24 xl:pt-24 xl:pb-0 py-16 sm:pt-20 md:py-24 sm:pb-0 ">
         {cart.length > 0 ? (
           <div className="flex w-full flex-col lg:flex-row gap-6">
-            {/* Cart Items Section */}
-            <div className="flex flex-col items-center justify-start p-4 sm:p-6 w-full lg:w-1/2 bg-white rounded-lg shadow-sm">
+            {/* Cart Items Section with Scroll */}
+            <div className="flex flex-col items-center justify-start p-4 sm:p-6 w-full lg:w-1/2 bg-white rounded-lg shadow-sm ">
               {cart.map((product) => (
                 <CartItem key={product.id} product={product} />
               ))}
             </div>
 
-            {/* Order Summary Section */}
-            <div className="flex flex-col justify-start p-4 sm:p-6 w-full lg:w-1/2 bg-white rounded-lg shadow-sm">
-              <div className="w-full max-w-full md:max-w-md border-2 rounded-xl p-6 sm:p-8">
+            {/* Fixed Order Summary Section */}
+            <div className="flex flex-col items-center justify-start p-4 sm:p-6 w-full lg:w-1/2  bg-white rounded-lg shadow-sm lg:sticky lg:top-24">
+              <div className="w-full max-w-full md:max-w-[31rem] lg:max-w-[24rem] xl:max-w-[30rem] border-2 rounded-xl p-6 sm:p-8">
                 <h2 className="text-lg sm:text-xl font-semibold mb-4 text-slate-700 uppercase">
                   Order Summary
                 </h2>
@@ -43,7 +43,7 @@ const CartPage = () => {
                         {product.name}
                       </span>
                       <span className="font-semibold text-sm sm:text-base">
-                        $
+                        ₹{" "}
                         {product.totalPrice
                           ? product.totalPrice.toFixed(2)
                           : "0.00"}
@@ -55,7 +55,7 @@ const CartPage = () => {
                       Total
                     </span>
                     <span className="text-sm sm:text-base">
-                      ${totalCost ? totalCost.toFixed(2) : "0.00"}
+                      ₹ {totalCost ? totalCost.toFixed(2) : "0.00"}
                     </span>
                   </li>
                 </ul>
@@ -63,7 +63,7 @@ const CartPage = () => {
                 {/* Checkout Button */}
                 <button
                   onClick={handleCheckoutClick}
-                  className="mt-6 w-full bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white font-semibold text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors duration-300 ease-in-out"
+                  className="uppercase mt-6 w-full bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white font-semibold xl:text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6 rounded-md transition-colors duration-300 ease-in-out"
                 >
                   Go to Checkout
                 </button>

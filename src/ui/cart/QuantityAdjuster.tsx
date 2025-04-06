@@ -34,7 +34,7 @@ export default function QuantityAdjuster({ id }: { id: string }) {
   };
 
   return (
-    <div className="flex items-center justify-between w-[8rem] border rounded-md px-2 py-1 bg-gray-200">
+    <div className="flex items-center justify-between w-[8rem] border rounded-md px-2 py-1 bg-[#eaeaeb]">
       <button
         onClick={onClickMinus}
         disabled={quantity <= 1}

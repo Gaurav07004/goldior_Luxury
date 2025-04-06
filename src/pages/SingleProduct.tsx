@@ -309,11 +309,11 @@ function ProductInfo({
               </div>
               <div className="flex items-center">
                 <p className="text-lg font-semibold text-slate-700">
-                  ${Math.round(salePrice)}
+                  ₹ {Math.round(salePrice)}
                 </p>
                 {product?.discountPercentage > 0 && (
                   <del className="ml-2 text-sm text-gray-600">
-                    ${actualPrice}
+                    ₹ {actualPrice}
                   </del>
                 )}
               </div>
@@ -404,7 +404,7 @@ function SizePics({
     <button
       onClick={() => setSelectedQuantity(capacity?.quantity)}
       aria-label={`Select ${capacity?.quantity} ml`}
-      className={`mt-2 flex w-[7rem] flex-col items-center justify-center bg-white rounded-xl duration-500 cursor-pointer border border-gray-400 p-3 ${
+      className={`mt-2 flex w-[7rem] flex-col items-center justify-center bg-white rounded-xl duration-500 cursor-pointer border-2 border-gray-400 p-3 ${
         selectedQuantity === capacity?.quantity
           ? "bg-green-50 border border-green-500"
           : ""

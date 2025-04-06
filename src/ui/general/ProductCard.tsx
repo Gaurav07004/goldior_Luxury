@@ -90,7 +90,7 @@ function ProductCard({
       <div className="flex justify-between items-center pt-6">
         <div className="flex items-center">
           <p className="text-lg font-semibold text-slate-700">
-            ${discountedPrice}
+            ₹ {discountedPrice}
           </p>
           {discountPercentage > 0 && (
             <del>

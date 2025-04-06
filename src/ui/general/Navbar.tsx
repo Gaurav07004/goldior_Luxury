@@ -196,23 +196,18 @@ export default function Navbar() {
         ref={wishlistRef}
         className={`fixed top-0 right-0 h-screen bg-white border-2 transform transition-transform duration-500 z-20 ease-in-out ${
           isWishlistOpen ? "translate-x-0" : "translate-x-full"
-        } w-full xs:w-full sm:w-4/5 md:w-[60%] lg:w-[70%] xl:w-[30%]`}
+        } w-full xs:w-full sm:w-4/5 md:w-[60%] lg:w-[50%] xl:w-[30%]`}
       >
         {/* Header */}
         <div
           className={`flex justify-between items-center w-full h-[4rem] sm:h-[5rem] md:h-[6rem] fixed top-0 z-20 px-4 sm:px-8 lg:px-[3rem] xl:px-8 bg-white transition-colors duration-300`}
         >
           <h2 className="text-xl sm:text-2xl font-semibold">Wishlist</h2>
-          <div
-            className="bg-slate-200 w-8 h-8 flex justify-center items-center rounded-lg cursor-pointer 
-             hover:bg-slate-300 transition-all duration-300"
+          <RxCross1
+            size={20}
+            className="transition-transform duration-300 hover:rotate-180"
             onClick={() => setWishlistOpen(false)}
-          >
-            <RxCross1
-              size={20}
-              className="transition-transform duration-300 hover:rotate-180"
-            />
-          </div>
+          />
         </div>
 
         {/* Wishlist Items */}
