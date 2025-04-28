@@ -336,12 +336,12 @@ function ProductInfo({
       {/* product info  */}
       <div className="w-full px-4 sm:px-12 md:px-16 lg:px-24 xl:px-32 mt-12 flex flex-col gap-6">
         {/* Title Section */}
-        <p className="mt-1 text-[2.5rem] font-medium text-center font-serif text-slate-700 leading-[4.25rem]">
+        <p className="mt-1 text-[2rem] font-medium text-left font-serif text-slate-700 leading-[4.25rem] uppercase">
           Product Detail
         </p>
         {/* Description Section */}
         <div className="py-1">
-          <ul className="list-disc space-y-4 text-slate-500 text-sm sm:text-base leading-relaxed">
+          <ul className="space-y-4 text-slate-500 text-sm sm:text-base leading-relaxed">
             {product?.description2
               .split(".")
               .filter(Boolean)
@@ -367,18 +367,18 @@ function ProductInfo({
 
 function KeyNotes({ notes }: { notes: Notes[] }) {
   return (
-    <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 mt-8 flex flex-col gap-8">
+    <div className="w-full px-4 sm:px-12 md:px-16 lg:px-24 xl:px-32 mt-12 flex flex-col gap-6">
       {/* Title Section */}
-      <p className="mt-1 text-[2rem] sm:text-[2.5rem] text-center font-medium font-serif text-slate-700 leading-[3rem] sm:leading-[4rem]">
+      <p className="mt-1 text-[2rem] font-medium text-left font-serif text-slate-700 leading-[4.25rem] uppercase">
         Key Notes
       </p>
 
       {/* Notes Grid */}
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-3 gap-[13rem]">
         {notes?.map((item: Notes, index) => (
           <div key={index} className="flex flex-col items-center border-solid">
             <img
-              className="rounded-full object-cover h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64 xl:h-72 xl:w-72"
+              className="rounded-xl object-cover h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64 xl:h-72 xl:w-72"
               src={item?.image}
               alt="image"
             />

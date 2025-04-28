@@ -50,13 +50,21 @@ export default function Chatbot() {
       if (!response.ok) throw new Error("Server error");
 
       const data = await response.json();
-      const botMessage: Message = {
-        sender: "bot",
-        text: "Here are some recommended fragrances:",
-        products: data.reply || [],
-      };
 
-      setMessages((prev) => [...prev, botMessage]);
+      // Introduce delay before bot responds
+      setTimeout(() => {
+        const botMessage: Message = {
+          sender: "bot",
+          text: "Here are some recommended fragrances:",
+          products: data.reply || [],
+        };
+
+        setMessages((prev) => [...prev, botMessage]);
+
+        // Hide typing indicator after response
+        setIsBotTyping(false);
+        setIsLoading(false);
+      }, 2000); // Delay the bot response by 2 seconds
     } catch (error) {
       setMessages((prev) => [
         ...prev,
@@ -65,11 +73,11 @@ export default function Chatbot() {
           text: "Something went wrong. Please try again later.",
         },
       ]);
+      setIsBotTyping(false);
+      setIsLoading(false);
     }
 
-    setInput("");
-    setIsLoading(false);
-    setIsBotTyping(false); // Hide typing indicator
+    setInput(""); // Clear input field
   }, [input, isLoading]);
 
   return (
@@ -82,16 +90,15 @@ export default function Chatbot() {
         <BsChatRightText className="text-xl" />
       </button>
 
-      {/* Chatbot UI */}
-      {/* Chatbot UI */}
       {isOpen && (
         <div
-          className="fixed bottom-20 right-5 bg-white p-5 shadow-2xl rounded-lg 
+          className="fixed bottom-20 right-5 bg-white p-5 shadow-2xl rounded-lg
     w-[90%] sm:w-[70%] sm:bottom-2 sm:right-[6.5rem] sm:z-50 md:w-[60%] md:bottom-20 md:right-[1.25rem] lg:w-[50%] xl:w-[30%] xl:bottom-20 xl:right-20
-    max-h-[80vh] border border-gray-300"
+    max-h-[80vh] border border-gray-300 
+    transition-all duration-300 ease-out animate-slideUpFade"
         >
           <div className="flex justify-between items-center mb-3">
-            <h2 className="xl:text-[1.05rem] xs:text-sm  font-semibold text-gray-800">
+            <h2 className="xl:text-[1.05rem] xs:text-sm font-semibold text-gray-800">
               Fragrance Recommendations
             </h2>
             <RxCross1

@@ -1,6 +1,7 @@
 // http://35.154.187.94:5100/api/product/672c49008681df2dabc8ad20
 
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 export default function UseAddUser(formData: any) {
   const { data: user, isLoading: isSavingUser } = useQuery({
@@ -11,24 +12,22 @@ export default function UseAddUser(formData: any) {
 }
 
 export async function saveUser(formData: any) {
-  console.log(formData, "form data saving...");
+  const navigate = useNavigate(); // useNavigate is used inside the hook
+
   try {
-    // Send the POST request to the backend API
-    const res = await fetch("http://35.154.187.94:5100/api/auth/create-user", {
+    const res = await fetch("http://localhost:5100/api/auth/create-user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData), // Send the form data in the body
+      body: JSON.stringify(formData),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      // Handle success (e.g., redirect or show success message)
       console.log("User created successfully:", data);
     } else {
-      // Handle failure (e.g., show error message)
       console.error("Error:", data.message || "Failed to create user");
     }
   } catch (error) {

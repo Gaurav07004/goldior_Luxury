@@ -105,6 +105,7 @@ const Login: React.FC = () => {
                   value={value}
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   id={`otp-${index}`}
+                  autoComplete="off"
                   className="w-12 h-12 border border-gray-300 text-center text-xl rounded-md focus:outline-none "
                 />
               ))}

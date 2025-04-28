@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useEffect, useRef, useState } from "react";
 import logo from "../../assets/goldior-logo.png";
 import { PiHeart, PiUser, PiShoppingCartSimple } from "react-icons/pi";
@@ -6,12 +7,11 @@ import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
 import { NavLink, useNavigate } from "react-router-dom";
 import WishlistCard from "./WishlistCard";
 import { RxCross1 } from "react-icons/rx";
-
+import ProfileCard from "../../ui/components/order";
 import wishimg from "../../assets/8.jpg";
 import { getWishlist } from "../../data/wishlist/getWishlist";
-import ProfileCard from "../components/profile";
+import { HiArrowLongRight } from "react-icons/hi2";
 
-// Type definition for Wishlist item
 interface WishlistItem {
   _id: string;
   name: string;
@@ -25,12 +25,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isWishlistOpen, setWishlistOpen] = useState(false);
+  const [isProfileOpen, setProfileOpen] = useState(false);
   const [favourites, setFavourites] = useState<WishlistItem[]>([]);
-  const [isProfileCardOpen, setIsProfileCardOpen] = useState(false);
   const profileCardRef = useRef<HTMLDivElement>(null);
   const wishlistRef = useRef<HTMLDivElement>(null);
-  const userEmail = localStorage.getItem("user_email_goldior_luxury");
   const [isScrolled, setIsScrolled] = useState(false);
+  const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,21 +48,6 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: { target: any }) => {
-      if (
-        profileCardRef.current &&
-        !profileCardRef.current.contains(event.target)
-      ) {
-        setIsProfileCardOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
     const fetchData = async () => {
       const items = await getWishlist();
       setFavourites(items);
@@ -71,16 +56,20 @@ export default function Navbar() {
   }, [isWishlistOpen]);
 
   const handleLogout = () => {
-    localStorage.removeItem("user_email_goldior_luxury");
-    setIsProfileCardOpen(false);
-    navigate("/");
+    localStorage.removeItem("userEmail");
+    setProfileOpen(false);
+    navigate("/login");
   };
 
-  const toggleProfileCard = () => {
-    if (!userEmail) {
+  // const toggleProfileCard = () => {
+  //   setIsProfileCardOpen(!isProfileCardOpen);
+  // };
+
+  const handleProfile = () => {
+    if (!email) {
       navigate("/login");
     } else {
-      setIsProfileCardOpen(!isProfileCardOpen);
+      setProfileOpen(!isProfileOpen);
     }
   };
 
@@ -131,14 +120,7 @@ export default function Navbar() {
       </div>
       <div className="hidden xl:block">
         <ul className="flex justify-between items-center font-medium lg:w-[36rem] md:w-[26rem] xl:w-fit">
-          {[
-            "Home",
-            "Discover",
-            "Our Luxury Collection",
-            // "New Launch",
-            "Blogs",
-            // "Contact Us",
-          ].map((menu) =>
+          {["Home", "Discover", "Our Luxury Collection", "Blogs"].map((menu) =>
             menu === "Home" ? (
               <NavItem key={menu} to="/">
                 {menu}
@@ -159,24 +141,8 @@ export default function Navbar() {
           <NavItem>
             <PiUser
               className="ease-in-out duration-200 text-[1.5rem] cursor-pointer"
-              onClick={toggleProfileCard}
+              onClick={handleProfile}
             />
-            {isProfileCardOpen && userEmail && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "3rem",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <ProfileCard
-                  name="Hey:)"
-                  email={userEmail}
-                  imageUrl={""}
-                  onLogout={handleLogout}
-                />
-              </div>
-            )}
           </NavItem>
           <NavItem>
             <PiHeart
@@ -198,7 +164,6 @@ export default function Navbar() {
           isWishlistOpen ? "translate-x-0" : "translate-x-full"
         } w-full xs:w-full sm:w-4/5 md:w-[60%] lg:w-[50%] xl:w-[30%]`}
       >
-        {/* Header */}
         <div
           className={`flex justify-between items-center w-full h-[4rem] sm:h-[5rem] md:h-[6rem] fixed top-0 z-20 px-4 sm:px-8 lg:px-[3rem] xl:px-8 bg-white transition-colors duration-300`}
         >
@@ -209,8 +174,6 @@ export default function Navbar() {
             onClick={() => setWishlistOpen(false)}
           />
         </div>
-
-        {/* Wishlist Items */}
         <div className="pt-[5rem] sm:pt-[6rem] md:pt-[7rem] px-4 sm:px-8 lg:px-[3rem] xl:px-8 overflow-y-auto h-screen">
           {favourites.length > 0 ? (
             favourites.map((item, index) => (
@@ -222,32 +185,26 @@ export default function Navbar() {
                 name={item.name}
                 // @ts-expect-error Property 'imgUrl' does not exist on type 'Item'.
                 imageUrl={item.imgUrl}
-                // discountPercentage={item.discountPercentage}
                 quantity="250ml"
-                // price={item.price}
               />
             ))
           ) : (
             <div className="flex flex-col items-center justify-center h-full px-4">
-              {/* Empty Wishlist Image */}
               <img
-                src={wishimg} // Provide a valid empty wishlist image
+                src={wishimg}
                 alt="Empty Wishlist"
                 className="w-full max-w-[200px] h-auto object-cover mix-blend-multiply"
               />
 
-              {/* Empty Wishlist Title */}
               <p className="text-xl sm:text-2xl font-bold text-center text-slate-700">
                 Your Wishlist is Empty!
               </p>
 
-              {/* Additional Text */}
               <p className="text-sm sm:text-base text-center mt-4 text-slate-500">
                 It seems you haven’t added anything to your wishlist yet. Start
                 exploring and add some favorites!
               </p>
 
-              {/* Shop Now Button */}
               <NavLink
                 to="/Our-Luxury-Collection"
                 className="mt-8 bg-[var(--theme-brown)] text-white text-sm sm:text-base font-medium px-6 py-3 rounded-lg transition-all duration-300 hover:bg-[var(--buttonHover)]"
@@ -256,6 +213,35 @@ export default function Navbar() {
               </NavLink>
             </div>
           )}
+        </div>
+      </div>
+
+      <div
+        ref={profileCardRef}
+        className={`fixed top-0 right-0 h-screen bg-white border-2 transform transition-transform duration-500 z-20 ease-in-out ${
+          isProfileOpen ? "translate-x-0" : "translate-x-full"
+        } w-full xs:w-full sm:w-4/5 md:w-[60%] lg:w-[50%] xl:w-[35%]`}
+      >
+        {/* Header (Sticky, stays on top) */}
+        <section className="flex items-center justify-between sticky top-0 z-10 bg-white p-4 border-b-[0.5px] border-gray-200">
+          <div className="flex items-center space-x-2">
+            <div className="text-gray-600 text-[0.9rem] font-semibold tracking-wide uppercase">
+              Customer Preview
+            </div>
+          </div>
+          <div
+            className="flex items-center justify-center w-8 h-8 bg-gray-100 hover:bg-orange-100 rounded-lg transition duration-300"
+            onClick={() => {
+              setProfileOpen(false);
+            }}
+          >
+            <HiArrowLongRight className="w-5 h-5 text-gray-500" />
+          </div>
+        </section>
+
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto h-[calc(100vh-64px)]">
+          <ProfileCard onLogout={handleLogout} />
         </div>
       </div>
 
@@ -269,50 +255,28 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="absolute top-[6rem] bg-white border-2 rounded-2xl p-4 z-10 w-[90%] mx-auto">
           <ul className="flex flex-col items-center py-4">
-            {[
-              "Home",
-              "About Us",
-              "Our Luxury Collection",
-              // "New Launch",
-              "Blogs",
-              // "Contact Us",
-            ].map((menu) =>
-              menu === "Home" ? (
-                <NavItem key={menu} to="/">
-                  {menu}
-                </NavItem>
-              ) : (
-                <NavItem
-                  key={menu}
-                  to={`/${menu.toLowerCase().replace(/\s+/g, "-")}`}
-                >
-                  {menu}
-                </NavItem>
-              )
+            {["Home", "About Us", "Our Luxury Collection", "Blogs"].map(
+              (menu) =>
+                menu === "Home" ? (
+                  <NavItem key={menu} to="/">
+                    {menu}
+                  </NavItem>
+                ) : (
+                  <NavItem
+                    key={menu}
+                    to={`/${menu.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {menu}
+                  </NavItem>
+                )
             )}
 
             <div className="flex justify-center items-center gap-5 mt-2">
               <NavItem>
                 <PiUser
                   className="ease-in-out duration-200 text-[1.4rem]"
-                  onClick={toggleProfileCard}
+                  onClick={() => setProfileOpen(true)}
                 />
-                {isProfileCardOpen && userEmail && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "3rem",
-                      transform: "translateX(-50%)",
-                    }}
-                  >
-                    <ProfileCard
-                      name="Hey:)"
-                      email={userEmail}
-                      imageUrl={""}
-                      onLogout={handleLogout}
-                    />
-                  </div>
-                )}
               </NavItem>
 
               <NavItem>

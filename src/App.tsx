@@ -21,7 +21,7 @@ import TermsAndConditions from "./ui/security/terms.tsx";
 import BuyerProtectionPage from "./ui/security/BuyerProtectionPage.tsx";
 import DeliveryPage from "./ui/security/DeliveryPage.tsx";
 import PaymentPage from "./ui/security/PaymentPage.tsx";
-import AiAssistant from "./ui/components/chatbot.tsx"; // Import AI Assistant
+import AiAssistant from "./ui/components/chatbot.tsx";
 
 export default function App() {
   const queryClient = new QueryClient({
@@ -72,8 +72,6 @@ export default function App() {
           <Route path="/Delivery-Page" element={<DeliveryPage />} />
         </Routes>
       </BrowserRouter>
-
-      {/* AI Assistant Component */}
       <AiAssistant />
     </QueryClientProvider>
   );

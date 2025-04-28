@@ -1,7 +1,7 @@
 export const verifyUserExists = async (email: string): Promise<boolean> => {
   try {
     const response = await fetch(
-      `http://35.154.187.94:5100/api/auth/get-user-by-email/${email}`,
+      `http://localhost:5100/api/auth/get-user-by-email/${email}`,
       {
         method: "GET", // Make a GET request
         headers: {

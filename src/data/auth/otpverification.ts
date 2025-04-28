@@ -1,7 +1,7 @@
 export async function sendEmailForOtp(email: string) {
   try {
     const res = await fetch(
-      `http://35.154.187.94:5100/api/auth/send-otp/${email}`,
+      `http://localhost:5100/api/auth/send-otp/${email}`,
       {
         method: "POST", // Using POST method
         headers: {

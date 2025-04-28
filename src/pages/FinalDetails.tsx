@@ -18,7 +18,10 @@ const FinalDetails = () => {
     <>
       <Navbar />
       <div className="bg-gradient-to-br from-[#fdf6ed] via-white to-[#fbead1] min-h-screen pt-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-2xl mx-auto bg-white rounded-2xl p-6 sm:p-8 md:p-10 border border-gray-300">
+        <div
+          className="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-2xl mx-auto bg-white rounded-2xl 
+        p-6 sm:p-8 md:p-10 border border-gray-300"
+        >
           <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center text-gray-700 mb-6 sm:mb-8 font-serif tracking-wide uppercase">
             Order Summary
           </h1>
@@ -74,7 +77,11 @@ const FinalDetails = () => {
               </div>
 
               {/* Payment Button */}
-              <button className="w-full uppercase mt-6 sm:mt-8 py-2.5 sm:py-3 text-sm sm:text-base font-semibold bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white rounded-md shadow-md transition duration-300 ease-in-out">
+              <button
+                className="w-full uppercase mt-6 sm:mt-8 py-2.5 sm:py-3 text-sm sm:text-base 
+              font-semibold bg-[var(--theme-brown)] hover:bg-[var(--buttonHover)] text-white rounded-md 
+              shadow-md transition duration-300 ease-in-out"
+              >
                 Proceed to Payment
               </button>
             </>

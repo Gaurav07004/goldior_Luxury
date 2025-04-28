@@ -39,16 +39,20 @@ export default function Reviews({
   return (
     <>
       <div className="w-full px-2 sm:px-16 md:px-[2rem] lg:px-[2rem] gap-10 flex-col mt-0 md:mt-8 py-4">
-        <p className="mt-1 text-[2.5rem] font-medium text-center font-serif text-slate-700 leading-[4.25rem]">Ratings & Reviews</p>
         {reviews.length > 0 && (
-          <RatingSummary
-            reviews={reviews}
-            averageRating={averageRating}
-            starCounts={starCounts}
-            recommendationPercentage={recommendationPercentage}
-            isOpenReviewModal={isOpenReviewModal}
-            setIsOpenReviewModal={setIsOpenReviewModal}
-          />
+          <>
+            <p className="mt-1 text-[2.5rem] font-medium text-center font-serif text-slate-700 leading-[4.25rem]">
+              Ratings & Reviews
+            </p>
+            <RatingSummary
+              reviews={reviews}
+              averageRating={averageRating}
+              starCounts={starCounts}
+              recommendationPercentage={recommendationPercentage}
+              isOpenReviewModal={isOpenReviewModal}
+              setIsOpenReviewModal={setIsOpenReviewModal}
+            />
+          </>
         )}
         <ReviewList reviews={reviews} />
       </div>
@@ -70,10 +74,10 @@ function ReviewList({ reviews }: { reviews: any }) {
 function ReviewListItem({ review }: { review: any }) {
   const [readMore, setReadMore] = useState<boolean>(false);
 
-  console.log("review: ", review)
+  console.log("review: ", review);
 
   function handleToggleReadMore() {
-    setReadMore(!readMore)
+    setReadMore(!readMore);
   }
   return (
     <div className="flex gap-6 items-start mb-8 mt-12">
@@ -81,7 +85,9 @@ function ReviewListItem({ review }: { review: any }) {
       <div className="w-full">
         <div className="flex w-full items-center justify-between mb-3">
           <div>
-            <p className="text-lg font-semibold text-gray-800">{review?.user_id?.username}</p>
+            <p className="text-lg font-semibold text-gray-800">
+              {review?.user_id?.username}
+            </p>
             <StarRating
               rating={review?.rating}
               size="normal"
@@ -158,12 +164,11 @@ function RatingSummary({
   const { isAddingReview, addReview } = useAddReview();
 
   const navigate = useNavigate();
-  console.log(isSubmitting)
+  console.log(isSubmitting);
 
   useEffect(() => {
     console.log("data url: ", imageUrl);
   }, [imageUrl]);
-
 
   async function handleFile(e: any) {
     const file = e.target.files[0];
@@ -218,7 +223,9 @@ function RatingSummary({
 
           return (
             <div key={star} className="flex items-center gap-4 my-4">
-              <p className="text-sm font-semibold text-gray-700 w-20">{star} Star{star > 1 && "s"}</p>
+              <p className="text-sm font-semibold text-gray-700 w-20">
+                {star} Star{star > 1 && "s"}
+              </p>
 
               <div className="relative w-full bg-gray-300 h-3 rounded-full">
                 <div
@@ -227,7 +234,9 @@ function RatingSummary({
                 ></div>
               </div>
 
-              <p className="text-sm font-semibold text-gray-700 w-20 text-right">{percentage.toFixed(1)}%</p>
+              <p className="text-sm font-semibold text-gray-700 w-20 text-right">
+                {percentage.toFixed(1)}%
+              </p>
             </div>
           );
         })}
@@ -349,11 +358,17 @@ function RatingSummary({
             size="large"
             fillColor="var(--theme-brown)"
           />
-          <span className="text-base font-semibold text-slate-500 ml-2">{averageRating} out of 5</span>
+          <span className="text-base font-semibold text-slate-500 ml-2">
+            {averageRating} out of 5
+          </span>
         </div>
 
-        <p className="text-base text-gray-600 mb-2">99% users recommend this product</p>
-        <span className="text-base text-gray-500 mb-4">{reviews.length} reviews</span>
+        <p className="text-base text-gray-600 mb-2">
+          99% users recommend this product
+        </p>
+        <span className="text-base text-gray-500 mb-4">
+          {reviews.length} reviews
+        </span>
 
         <button
           onClick={() =>

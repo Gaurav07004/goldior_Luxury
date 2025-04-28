@@ -56,7 +56,7 @@ function ProductCard({
 
   return (
     <div
-      className="relative w-full sm:w-[18rem] md:w-[18rem] lg:w-[18.8rem] xl:w-[24rem] bg-white rounded-xl duration-500 cursor-pointer border-2 border-gray-200 mb-8 p-6"
+      className="relative w-full sm:w-[18rem] md:w-[20.5rem] lg:w-[18.8rem] xl:w-[24rem] bg-white rounded-xl duration-500 cursor-pointer border-2 border-gray-200 mb-8 p-6"
       onClick={() => navigate("/product/" + id)}
     >
       {/* Discount Badge */}
